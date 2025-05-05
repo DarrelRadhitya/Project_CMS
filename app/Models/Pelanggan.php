@@ -2,36 +2,29 @@
 
 namespace App\Models;
 
-class Pelanggan
-{
-    private static $data = [
-        [
-            'Id_Pelanggan' => 'P001',
-            'Nama' => 'Darrel Radhitya',
-            'Nomor_Telepon' => '089508949112',
-            'Email' => 'darrel.radhitya@gmail.com'
-        ],
-        [
-            'Id_Pelanggan' => 'P002',
-            'Nama' => 'Ariq Fairuza',
-            'Nomor_Telepon' => '081315065766',
-            'Email' => 'ariq.fairuza@gmail.com'
-        ],
-        
-    ];
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    public static function all()
+class Pelanggan extends Model
+{
+    use HasFactory;
+
+    protected $table = 'pelanggans'; 
+    protected $fillable = ['nama', 'no_telepon', 'email'];
+
+    protected $primaryKey = 'id'; 
+
+    public $incrementing = false; 
+    protected $keyType = 'string';
+
+    public static function getAll()
     {
-        return self::$data;
+        return Pelanggan::all();
     }
 
     public static function find($id)
     {
-        foreach (self::$data as $Pelanggan) {
-            if ($Pelanggan['Id_Pelanggan'] == $id) {
-                return $Pelanggan;
-            }
-        }
-        return null;
+        return Pelanggan::where('id', $id)->first();
     }
 }
+

@@ -1,13 +1,17 @@
-<h2 style="margin-bottom: 16px;">Tambah Transaksi Baru</h2>
+@extends('layouts.app')
 
-<form style="line-height: 2;">
-    <label>Id Transaksi: <input type="varchar2"></label><br>
-    <label>Id Pelanggan: <input type="varchar2"></label><br>
-    <label>Id Playstation: <input type="varchar2"></label><br>
-    <label>Tanggal Pinjam: <input type="Date"></label><br>
-    <label>Tanggal Kembali: <input type="Date"></label><br>
-    <label>Status: <input type="text"></label><br>
-    <button disabled style="margin-top: 10px;">Tambah (dummy)</button>
-</form>
+@section('title', 'Tambah Transaksi')
 
-<a href="/transaksi" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@section('content')
+    <h2 style="margin-bottom: 16px;">Tambah Transaksi Baru</h2>
+
+    <form method="POST" action="{{ route('transaksi.store') }}" style="line-height: 2;">
+        @csrf
+        <label>Tanggal Pinjam: <input type="date" name="tanggal_pinjam" required></label><br>
+        <label>Tanggal Kembali: <input type="date" name="tanggal_kembali" required></label><br>
+        <label>Status: <input type="text" name="status" required></label><br>
+        <button type="submit" style="margin-top: 10px;">Tambah</button>
+    </form>
+
+    <a href="{{ route('transaksi.index') }}" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@endsection

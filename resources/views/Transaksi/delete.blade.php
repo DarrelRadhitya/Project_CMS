@@ -5,13 +5,14 @@
 @section('content')
     <h1>Yakin ingin menghapus transaksi ini?</h1>
 
-    <p><strong>ID: {{ $Transaksi['Id_Transaksi'] }}</strong></p>
+    <p><strong>{{ $transaksi->id }}</strong></p>
+    <p>{{ $transaksi->status }}</p>
 
-    <form action="{{ url('/transaksi/' . $Transaksi['Id_Transaksi']) }}" method="POST" style="display: inline;">
+    <form action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" style="display: inline;">
         @csrf
         @method('DELETE')
-        <button disabled style="margin-right: 10px;">Ya, hapus (dummy)</button>
+        <button style="margin-right: 10px;">Ya, hapus</button>
     </form>
 
-    <a href="{{ route('transaksi.show', $Transaksi['Id_Transaksi']) }}">Batal</a>
+    <a href="{{ route('transaksi.show', $transaksi->id) }}">Batal</a>
 @endsection

@@ -5,16 +5,16 @@
 @section('content')
     <h2>Detail Pelanggan</h2>
 
-    <p><strong>Nama:</strong> {{ $Pelanggan['Nama'] }}</p>
-    <p><strong>Nomor Telepon:</strong> {{ $Pelanggan['Nomor_Telepon'] }}</p>
-    <p><strong>Email:</strong> {{ $Pelanggan['Email'] }}</p>
+    <p><strong>Nama:</strong> {{ $pelanggan->nama }}</p>
+    <p><strong>Nomor Telepon:</strong> {{ $pelanggan->no_telepon }}</p>
+    <p><strong>Email:</strong> {{ $pelanggan->email }}</p>
 
     <br>
 
-    <a href="/pelanggan/{{ $Pelanggan['Id_Pelanggan'] }}/edit">✏️ Edit</a> |
-    <a href="/pelanggan/{{ $Pelanggan['Id_Pelanggan'] }}/delete">🗑️ Hapus</a>
+    <a href="{{ route('pelanggan.edit', $pelanggan->id) }}">✏️ Edit</a> |
+    <a href="{{ route('pelanggan.delete', $pelanggan->id) }}">🗑️ Hapus</a>
 
     <br><br>
 
-    <a href="/pelanggan">← Kembali ke daftar</a>
+    <a href="{{ route('pelanggan.index') }}">← Kembali ke daftar</a>
 @endsection

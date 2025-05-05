@@ -5,15 +5,14 @@
 @section('content')
     <h2>Detail Playstation</h2>
 
-    <p><strong>Id Playstation:</strong> {{ $Playstation['Id_Playstation'] }}</p>
-    <p><strong>Jenis:</strong> {{ $Playstation['Jenis'] }}</p>
-    <p><strong>Harga sewa per hari:</strong> {{ $Playstation['Harga_Sewa'] }}</p>
-    <p><strong>Status:</strong> {{ $Playstation['Status'] }}</p>
+    <p><strong>Jenis:</strong> {{ $playstation['jenis'] }}</p>
+    <p><strong>Harga sewa per hari:</strong> {{ $playstation['harga_sewa'] }}</p>
+    <p><strong>Status:</strong> {{ $playstation['status'] }}</p>
 
     <br>
 
-    <a href="/playstation/{{ $Playstation['Id_Playstation'] }}/edit">✏️ Edit</a> |
-    <a href="/playstation/{{ $Playstation['Id_Playstation'] }}/delete">🗑️ Hapus</a>
+    <a href="/playstation/{{ $playstation['id'] }}/edit">✏️ Edit</a> |
+    <a href="/playstation/{{ $playstation['id'] }}/delete">🗑️ Hapus</a>
 
     <br><br>
 

@@ -5,14 +5,14 @@
 @section('content')
     <h1>Yakin ingin menghapus pelanggan ini?</h1>
 
-    <p><strong>{{ $Pelanggan['Nama'] }}</strong></p>
-    <p>{{ $Pelanggan['Email'] }}</p>
+    <p><strong>{{ $pelanggan->nama }}</strong></p>
+    <p>{{ $pelanggan->email }}</p>
 
-    <form action="{{ url('/pelanggan/' . $Pelanggan['Id_Pelanggan']) }}" method="POST" style="display: inline;">
+    <form action="{{ route('pelanggan.destroy', $pelanggan->id) }}" method="POST" style="display: inline;">
         @csrf
         @method('DELETE')
-        <button disabled style="margin-right: 10px;">Ya, hapus (dummy)</button>
+        <button style="margin-right: 10px;">Ya, hapus</button>
     </form>
 
-    <a href="{{ route('pelanggan.show', $Pelanggan['Id_Pelanggan']) }}">Batal</a>
+    <a href="{{ route('pelanggan.show', $pelanggan->id) }}">Batal</a>
 @endsection

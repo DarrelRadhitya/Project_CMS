@@ -2,37 +2,29 @@
 
 namespace App\Models;
 
-class Pembayaran
-{
-    private static $data = [
-        [
-            'Id_Pembayaran' => 'B001',
-            'Id_Transaksi'=> 'T001',
-            'Jumlah_Bayar'=> 80000,
-            'Metode_Pembayaran'=> 'Tunai',
-            'Tanggal_Pembayaran'=> '17-03-2025'
-        ],
-        [
-            'Id_Pembayaran' => 'B002',
-            'Id_transaksi'=> 'T002',
-            'Jumlah_Bayar'=> 50000,
-            'Metode_Pembayaran'=> 'Transfer',
-            'Tanggal_Pembayaran'=> '17-03-2025'
-        ],
-    ];
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    public static function all()
+class Pembayaran extends Model
+{
+    use HasFactory;
+
+    protected $table = 'pembayarans'; 
+    protected $fillable = ['jumlah_bayar', 'metode_pembayaran', 'tanggal_pembayaran'];
+
+    protected $primaryKey = 'id'; 
+
+    public $incrementing = false; 
+    protected $keyType = 'string';
+
+    public static function getAll()
     {
-        return self::$data;
+        return Pembayaran::all();
     }
 
     public static function find($id)
     {
-        foreach (self::$data as $Pembayaran) {
-            if ($Pembayaran['Id_Pembayaran'] == $id) {
-                return $Pembayaran;
-            }
-        }
-        return null;
+        return Pembayaran::where('id', $id)->first();
     }
 }
+

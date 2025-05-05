@@ -1,12 +1,17 @@
-<h2 style="margin-bottom: 16px;">Tambah Pembayaran Baru</h2>
+@extends('layouts.app')
 
-<form style="line-height: 2;">
-    <label>Id Pembayaran: <input type="varchar2"></label><br>
-    <label>Id Transaksi: <input type="varchar2"></label><br>
-    <label>Jumlah Bayar: <input type="Number"></label><br>
-    <label>Metode Pembayaran: <input type="text"></label><br>
-    <label>Tanggal Pembayaran: <input type="Date"></label><br>
-    <button disabled style="margin-top: 10px;">Tambah (dummy)</button>
-</form>
+@section('title', 'Tambah Pembayaran')
 
-<a href="/pembayaran" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@section('content')
+    <h2 style="margin-bottom: 16px;">Tambah Pembayaran Baru</h2>
+
+    <form method="POST" action="{{ route('pembayaran.store') }}" style="line-height: 2;">
+        @csrf
+        <label>Jumlah Bayar: <input type="text" name="jumlah_bayar" required></label><br>
+        <label>Metode Pembayaran: <input type="text" name="metode_pembayaran" required></label><br>
+        <label>Tanggal Pembayaran: <input type="date" name="tanggal_pembayaran" required></label><br>
+        <button type="submit" style="margin-top: 10px;">Tambah</button>
+    </form>
+
+    <a href="{{ route('pembayaran.index') }}" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@endsection

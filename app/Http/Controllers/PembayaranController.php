@@ -2,32 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Pembayaran;
 
 class PembayaranController extends Controller
 {
+    // Menampilkan daftar semua pembayaran
     public function index()
     {
-        return view('Pembayaran.index', ['Pembayaran' => Pembayaran::all()]);
+        return view('pembayaran.index', [
+            'pembayarans' => Pembayaran::all()
+        ]);
     }
 
-    public function show($id)
-    {
-        return view('Pembayaran.show', ['Pembayaran' => Pembayaran::find($id)]);
-    }
-
+    // Menampilkan form tambah pembayaran
     public function create()
     {
         return view('pembayaran.create');
     }
 
-    public function edit($id)
+    // Menyimpan data pembayaran baru
+    public function store(Request $request)
     {
-        return view('Pembayaran.edit', ['Pembayaran' => Pembayaran::find($id)]);
+        $request->validate([
+            'jumlah_bayar' => 'required|numeric',
+            'metode_pembayaran' => 'required|string|max:20',
+            'tanggal_pembayaran' => 'required|date',
+        ]);
+
+        Pembayaran::create([
+            'jumlah_bayar' => $request->input('jumlah_bayar'),
+            'metode_pembayaran' => $request->input('metode_pembayaran'),
+            'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
+        ]);
+
+        return redirect()->route('pembayaran.index');
     }
 
+    // Menampilkan detail pembayaran
+    public function show($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+        return view('pembayaran.show', compact('pembayaran'));
+    }
+
+    // Menampilkan form edit pembayaran
+    public function edit($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+        return view('pembayaran.edit', compact('pembayaran'));
+    }
+
+    // Memproses update data pembayaran
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah_bayar' => 'required|numeric',
+            'metode_pembayaran' => 'required|string|max:20',
+            'tanggal_pembayaran' => 'required|date',
+        ]);
+
+        $pembayaran = Pembayaran::findOrFail($id);
+
+        $pembayaran->update([
+            'jumlah_bayar' => $request->input('jumlah_bayar'),
+            'metode_pembayaran' => $request->input('metode_pembayaran'),
+            'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
+        ]);
+
+        return redirect()->route('pembayaran.show', $id);
+    }
+
+    // Menampilkan halaman konfirmasi hapus
     public function delete($id)
     {
-        return view('Pembayaran.delete', ['Pembayaran' => Pembayaran::find($id)]);
+        $pembayaran = Pembayaran::findOrFail($id);
+        return view('pembayaran.delete', compact('pembayaran'));
+    }
+
+    // Menghapus data pembayaran
+    public function destroy($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->delete();
+
+        return redirect()->route('pembayaran.index');
     }
 }

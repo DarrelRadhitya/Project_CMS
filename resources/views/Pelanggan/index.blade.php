@@ -6,9 +6,9 @@
     <h1>Daftar Pelanggan</h1>
 
     <ul>
-        @forelse($Pelanggan as $p)
+        @forelse($pelanggans as $p)
             <li>
-                <a href="/pelanggan/{{ $p['Id_Pelanggan'] }}">{{ $p['Nama'] }}</a>
+                <a href="/pelanggan/{{ $p['id'] }}">{{ $p['nama'] }}</a>
             </li>
         @empty
             <p>Tidak ada pelanggan.</p>

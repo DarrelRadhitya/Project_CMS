@@ -6,9 +6,11 @@
     <h1>Daftar Transaksi</h1>
 
     <ul>
-        @forelse($Transaksi as $t)
+        @forelse($transaksis as $t)
             <li>
-                <a href="/transaksi/{{ $t['Id_Transaksi'] }}">{{ $t['Id_Transaksi'] }}</a>
+                <a href="/transaksi/{{ $t['id'] }}">
+                    {{ $t['id'] }} - {{ $t['status'] }}
+                </a>
             </li>
         @empty
             <p>Tidak ada transaksi.</p>

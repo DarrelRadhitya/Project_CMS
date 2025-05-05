@@ -5,19 +5,16 @@
 @section('content')
     <h2>Detail Transaksi</h2>
 
-    <p><strong>Id Transaksi:</strong> {{ $Transaksi['Id_Transaksi'] }}</p>
-    <p><strong>Id Pelanggan:</strong> {{ $Transaksi['Id_Pelanggan'] }}</p>
-    <p><strong>Id Playstation:</strong> {{ $Transaksi['Id_Playstation'] }}</p>
-    <p><strong>Tanggal Pinjam:</strong> {{ $Transaksi['Tanggal_Pinjam'] }}</p>
-    <p><strong>Tanggal Kembali:</strong> {{ $Transaksi['Tanggal_Kembali'] }}</p>
-    <p><strong>Status:</strong> {{ $Transaksi['Status'] }}</p>
+    <p><strong>Tanggal Pinjam:</strong> {{ $transaksi->tanggal_pinjam }}</p>
+    <p><strong>Tanggal Kembali:</strong> {{ $transaksi->tanggal_kembali }}</p>
+    <p><strong>Status:</strong> {{ $transaksi->status }}</p>
 
     <br>
 
-    <a href="/transaksi/{{ $Transaksi['Id_Transaksi'] }}/edit">✏️ Edit</a> |
-    <a href="/transaksi/{{ $Transaksi['Id_Transaksi'] }}/delete">🗑️ Hapus</a>
+    <a href="{{ route('transaksi.edit', $transaksi->id) }}">✏️ Edit</a> |
+    <a href="{{ route('transaksi.delete', $transaksi->id) }}">🗑️ Hapus</a>
 
     <br><br>
 
-    <a href="/transaksi">← Kembali ke daftar</a>
+    <a href="{{ route('transaksi.index') }}">← Kembali ke daftar</a>
 @endsection

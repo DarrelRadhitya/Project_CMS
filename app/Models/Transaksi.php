@@ -2,39 +2,29 @@
 
 namespace App\Models;
 
-class Transaksi
-{
-    private static $data = [
-        [
-            'Id_Transaksi' => 'T001',
-            'Id_Pelanggan'=> 'P001',
-            'Id_Playstation'=> 'PS01',
-            'Tanggal_Pinjam'=> '17-03-2025',
-            'Tanggal_Kembali'=> '19-03-2025',
-            'Status'=> 'Lunas'
-        ],
-        [
-            'Id_Transaksi' => 'T002',
-            'Id_Pelanggan'=> 'P002',
-            'Id_Playstation'=> 'PS02',
-            'Tanggal_Pinjam'=> '17-03-2025',
-            'Tanggal_Kembali'=> '18-03-2025',
-            'Status'=> 'DP'
-        ],
-    ];
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    public static function all()
+class Transaksi extends Model
+{
+    use HasFactory;
+
+    protected $table = 'transaksis'; 
+    protected $fillable = ['tanggal_pinjam', 'tanggal_kembali', 'status'];
+
+    protected $primaryKey = 'id'; 
+
+    public $incrementing = false; 
+    protected $keyType = 'string';
+
+    public static function getAll()
     {
-        return self::$data;
+        return Transaksi::all();
     }
 
     public static function find($id)
     {
-        foreach (self::$data as $Transaksi) {
-            if ($Transaksi['Id_Transaksi'] == $id) {
-                return $Transaksi;
-            }
-        }
-        return null;
+        return Transaksi::where('id', $id)->first();
     }
 }
+

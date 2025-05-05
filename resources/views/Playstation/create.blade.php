@@ -1,11 +1,17 @@
-<h2 style="margin-bottom: 16px;">Tambah Playstation Baru</h2>
+@extends('layouts.app')
 
-<form style="line-height: 2;">
-    <label>Id Playstation: <input type="varchar2"></label><br>
-    <label>Jenis: <input type="varchar2"></label><br>
-    <label>Harga Sewa per hari: <input type="Number"></label><br>
-    <label>Status: <input type="text"></label><br>
-    <button disabled style="margin-top: 10px;">Tambah (dummy)</button>
-</form>
+@section('title', 'Tambah Playstation')
 
-<a href="/playstation" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@section('content')
+    <h2 style="margin-bottom: 16px;">Tambah Playstation Baru</h2>
+
+    <form method="POST" action="{{ route('playstation.store') }}" style="line-height: 2;">
+        @csrf
+        <label>Jenis: <input type="text" name="jenis" required></label><br>
+        <label>Harga Sewa: <input type="text" name="harga_sewa" required></label><br>
+        <label>Status: <input type="text" name="status" required></label><br>
+        <button type="submit" style="margin-top: 10px;">Tambah</button>
+    </form>
+
+    <a href="{{ route('playstation.index') }}" style="display: inline-block; margin-top: 20px;">← Kembali ke daftar</a>
+@endsection

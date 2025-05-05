@@ -6,9 +6,11 @@
     <h1>Daftar Pembayaran</h1>
 
     <ul>
-        @forelse($Pembayaran as $b)
+        @forelse($pembayarans as $b)
             <li>
-                <a href="/pembayaran/{{ $b['Id_Pembayaran'] }}">{{ $b['Id_Pembayaran'] }}</a>
+                <a href="/pembayaran/{{ $b['id'] }}">
+                    {{ $b['id'] }} - {{ $b['tanggal_pembayaran'] }}
+                </a>
             </li>
         @empty
             <p>Tidak ada pembayaran.</p>

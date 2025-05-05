@@ -3,30 +3,24 @@
 @section('title', 'Edit Pembayaran')
 
 @section('content')
-    <h1>Edit Data Pembayaran</h1>
+    <h1>Edit Pembayaran</h1>
 
-    <form method="POST" action="/pembayaran/{{ $Pembayaran['Id_Pembayaran'] }}">
+    <form method="POST" action="{{ route('pembayaran.update', $pembayaran->id) }}">
         @csrf
         @method('PUT')
 
-        <label>Id Pembayaran:</label><br>
-        <input type="text" name="Id_Pembayaran" value="{{ $Pembayaran['Id_Pembayaran'] }}"><br><br>
-
-        <label>Id Transaksi:</label><br>
-        <input type="text" name="Id_Transaksi" value="{{ $Pembayaran['Id_Transaksi'] }}"><br><br>
-
         <label>Jumlah Bayar:</label><br>
-        <input type="number" name="Jumlah_Bayar" value="{{ $Pembayaran['Jumlah_Bayar'] }}"><br><br>
+        <input type="text" name="jumlah_bayar" value="{{ $pembayaran->jumlah_bayar }}"><br><br>
 
         <label>Metode Pembayaran:</label><br>
-        <input type="text" name="Metode_Pembayaran" value="{{ $Pembayaran['Metode_Pembayaran'] }}"><br><br>
+        <input type="text" name="metode_pembayaran" value="{{ $pembayaran->metode_pembayaran }}"><br><br>
 
         <label>Tanggal Pembayaran:</label><br>
-        <input type="date" name="Tanggal_Pembayaran" value="{{ $Pembayaran['Tanggal_Pembayaran'] }}"><br><br>
+        <input type="date" name="tanggal_pembayaran" value="{{ $pembayaran->tanggal_pembayaran }}"><br><br>
 
-        <button disabled style="margin-top: 10px;">Simpan (dummy)</button>
+        <button style="margin-top: 10px;">Simpan</button>
     </form>
 
     <br>
-    <a href="{{ route('pembayaran.show', $Pembayaran['Id_Pembayaran']) }}">← Kembali ke detail</a>
+    <a href="{{ route('pembayaran.show', $pembayaran->id) }}">← Kembali ke detail</a>
 @endsection

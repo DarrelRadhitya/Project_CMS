@@ -6,10 +6,10 @@
     <h1>Daftar Playstation</h1>
 
     <ul>
-        @forelse($Playstation as $ps)
+        @forelse($playstations as $ps)
             <li>
-                <a href="/playstation/{{ $ps['Id_Playstation'] }}">
-                    {{ $ps['Id_Playstation'] }} - {{ $ps['Jenis'] }}
+                <a href="/playstation/{{ $ps['id'] }}">
+                    {{ $ps['id'] }} - {{ $ps['jenis'] }}
                 </a>
             </li>
         @empty

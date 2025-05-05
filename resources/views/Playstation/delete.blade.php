@@ -5,14 +5,14 @@
 @section('content')
     <h1>Yakin ingin menghapus Playstation ini?</h1>
 
-    <p><strong>ID: {{ $Playstation['Id_Playstation'] }}</strong></p>
-    <p>Jenis: {{ $Playstation['Jenis'] }}</p>
+    <p><strong>ID: {{ $playstation['id'] }}</strong></p>
+    <p>Jenis: {{ $playstation['jenis'] }}</p>
 
-    <form action="{{ url('/playstation/' . $Playstation['Id_Playstation']) }}" method="POST" style="display: inline;">
+    <form action="{{ route('playstation.destroy', $playstation->id) }}" method="POST" style="display: inline;">
         @csrf
         @method('DELETE')
-        <button disabled style="margin-right: 10px;">Ya, hapus (dummy)</button>
+        <button style="margin-right: 10px;">Ya, hapus</button>
     </form>
 
-    <a href="{{ route('playstation.show', $Playstation['Id_Playstation']) }}">Batal</a>
+    <a href="{{ route('playstation.show', $playstation->id) }}">Batal</a>
 @endsection

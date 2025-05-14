@@ -9,22 +9,16 @@ class Pembayaran extends Model
 {
     use HasFactory;
 
-    protected $table = 'pembayarans'; 
-    protected $fillable = ['jumlah_bayar', 'metode_pembayaran', 'tanggal_pembayaran'];
+    protected $table = 'pembayarans';
+    protected $fillable = [
+        'id_transaksi',
+        'jumlah_bayar',
+        'metode_pembayaran',
+        'tanggal_pembayaran'
+    ];
 
-    protected $primaryKey = 'id'; 
-
-    public $incrementing = false; 
-    protected $keyType = 'string';
-
-    public static function getAll()
+    public function transaksi()
     {
-        return Pembayaran::all();
-    }
-
-    public static function find($id)
-    {
-        return Pembayaran::where('id', $id)->first();
+        return $this->belongsTo(Transaksi::class, 'id_transaksi');
     }
 }
-

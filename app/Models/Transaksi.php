@@ -9,22 +9,27 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaksis'; 
-    protected $fillable = ['tanggal_pinjam', 'tanggal_kembali', 'status'];
+    protected $table = 'transaksis';
+    protected $fillable = [
+        'id_pelanggan',
+        'id_playstation',
+        'tanggal_pinjam',
+        'tanggal_kembali',
+        'status'
+    ];
 
-    protected $primaryKey = 'id'; 
-
-    public $incrementing = false; 
-    protected $keyType = 'string';
-
-    public static function getAll()
+    public function pelanggan()
     {
-        return Transaksi::all();
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
     }
 
-    public static function find($id)
+    public function playstation()
     {
-        return Transaksi::where('id', $id)->first();
+        return $this->belongsTo(Playstation::class,'id_playstation');
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'id_transaksi');
     }
 }
-

@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('playstations', function (Blueprint $table) {
             $table->id();
             $table->string('jenis');
-            $table->string('harga_sewa');
-            $table->string('status');
+            $table->decimal('harga_sewa'); 
+            $table->enum('status', ['tersedia', 'disewakan']);
             $table->timestamps();
         });
     }

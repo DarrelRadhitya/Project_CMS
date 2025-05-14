@@ -14,12 +14,14 @@ class PembayaranSeeder extends Seeder
     {
         DB::table('pembayarans')->insert([
             [
+                'id_transaksi'=> '1',
                 'Jumlah_Bayar'=> 80000,
                 'Metode_Pembayaran'=> 'cash',
                 'Tanggal_Pembayaran'=> '2025-03-17'
             ],
             [
-                'Jumlah_Bayar'=> 50000,
+                'id_transaksi'=> '2',
+                'Jumlah_Bayar'=> 20000,
                 'Metode_Pembayaran'=> 'transfer',
                 'Tanggal_Pembayaran'=> '2025-03-17'
             ],

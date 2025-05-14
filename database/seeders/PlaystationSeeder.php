@@ -14,29 +14,29 @@ class PlaystationSeeder extends Seeder
     {
         DB::table('playstations')->insert([
             [
-                'Jenis'=> 'Playstation 3',
-                'Harga_Sewa'=> 40000,
-                'Status'=> 'disewa'
+                'jenis'=> 'Playstation 3',
+                'harga_sewa'=> 40000,
+                'status'=> 'disewakan'
             ],
             [
-                'Jenis'=> 'Playstation 3',
-                'Harga_Sewa'=> 40000,
-                'Status'=> 'disewa'
+                'jenis'=> 'Playstation 3',
+                'harga_sewa'=> 40000,
+                'status'=> 'disewakan'
             ],
             [
-                'Jenis'=> 'Playstation 4',
-                'Harga_Sewa'=> 80000,
-                'Status'=> 'disewa'
+                'jenis'=> 'Playstation 4',
+                'harga_sewa'=> 80000,
+                'status'=> 'tersedia'
             ],
             [
-                'Jenis'=> 'Playstation 4',
-                'Harga_Sewa'=> 40000,
-                'Status'=> 'disewa'
+                'jenis'=> 'Playstation 4',
+                'harga_sewa'=> 80000,
+                'status'=> 'tersedia'
             ],
             [
-                'Jenis'=> 'Playstation 5',
-                'Harga_Sewa'=> 120000,
-                'Status'=> 'disewa'
+                'jenis'=> 'Playstation 5',
+                'harga_sewa'=> 120000,
+                'status'=> 'tersedia'
             ],
         ]);
     }

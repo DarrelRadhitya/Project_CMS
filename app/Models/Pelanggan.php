@@ -9,22 +9,15 @@ class Pelanggan extends Model
 {
     use HasFactory;
 
-    protected $table = 'pelanggans'; 
-    protected $fillable = ['nama', 'no_telepon', 'email'];
+    protected $table = 'pelanggans';
+    protected $fillable = [
+        'nama', 
+        'no_telepon', 
+        'email'
+    ];
 
-    protected $primaryKey = 'id'; 
-
-    public $incrementing = false; 
-    protected $keyType = 'string';
-
-    public static function getAll()
+    public function transaksis()
     {
-        return Pelanggan::all();
-    }
-
-    public static function find($id)
-    {
-        return Pelanggan::where('id', $id)->first();
+        return $this->hasMany(Transaksi::class, 'id_pelanggan');
     }
 }
-

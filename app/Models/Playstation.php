@@ -9,22 +9,15 @@ class Playstation extends Model
 {
     use HasFactory;
 
-    protected $table = 'playstations'; 
-    protected $fillable = ['jenis', 'harga_sewa', 'status'];
+    protected $table = 'playstations';
+    protected $fillable = [
+        'jenis', 
+        'harga_sewa', 
+        'status'
+    ];
 
-    protected $primaryKey = 'id'; 
-
-    public $incrementing = false; 
-    protected $keyType = 'string';
-
-    public static function getAll()
+    public function transaksis()
     {
-        return Playstation::all();
-    }
-
-    public static function find($id)
-    {
-        return Playstation::where('id', $id)->first();
+        return $this->hasMany(Transaksi::class, 'id_playstation');
     }
 }
-

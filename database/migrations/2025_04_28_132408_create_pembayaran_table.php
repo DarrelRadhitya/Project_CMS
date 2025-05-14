@@ -10,12 +10,15 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_transaksi');
             $table->string('jumlah_bayar');
-            $table->string('metode_pembayaran');
+            $table->enum('metode_pembayaran', ['cash', 'transfer']);
             $table->date('tanggal_pembayaran');
             $table->timestamps();
+
+            $table->foreign('id_transaksi')->references('id')->on('transaksis')->onDelete('cascade');
         });
-    }
+    }      
 
     public function down()
     {

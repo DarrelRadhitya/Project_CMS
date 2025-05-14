@@ -7,7 +7,6 @@ use App\Models\Pelanggan;
 
 class PelangganController extends Controller
 {
-    // Menampilkan daftar semua pelanggan
     public function index()
     {
         return view('pelanggan.index', [
@@ -15,19 +14,17 @@ class PelangganController extends Controller
         ]);
     }
 
-    // Menampilkan form tambah pelanggan
     public function create()
     {
         return view('pelanggan.create');
     }
 
-    // Menyimpan data pelanggan baru
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'no_telepon' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:pelanggans,email|max:255',
         ]);
 
         Pelanggan::create([
@@ -39,31 +36,27 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan.index');
     }
 
-    // Menampilkan detail pelanggan
     public function show($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
         return view('pelanggan.show', compact('pelanggan'));
     }
 
-    // Menampilkan form edit pelanggan
     public function edit($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
         return view('pelanggan.edit', compact('pelanggan'));
     }
 
-    // Memproses update data pelanggan
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'no_telepon' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:pelanggans,email,' . $id . '|max:255',
         ]);
 
         $pelanggan = Pelanggan::findOrFail($id);
-
         $pelanggan->update([
             'nama' => $request->input('nama'),
             'no_telepon' => $request->input('no_telepon'),
@@ -73,14 +66,12 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan.show', $id);
     }
 
-    // Menampilkan halaman konfirmasi hapus
     public function delete($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
         return view('pelanggan.delete', compact('pelanggan'));
     }
 
-    // Menghapus data pelanggan
     public function destroy($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);

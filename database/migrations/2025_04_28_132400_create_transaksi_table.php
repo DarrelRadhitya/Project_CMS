@@ -10,10 +10,15 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_pelanggan');
+            $table->unsignedBigInteger('id_playstation');
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali');
-            $table->string('status');
+            $table->enum('status', ['lunas', 'dp']);
             $table->timestamps();
+
+            $table->foreign('id_pelanggan')->references('id')->on('pelanggans')->onDelete('cascade');
+            $table->foreign('id_playstation')->references('id')->on('playstations')->onDelete('cascade');
         });
     }
 

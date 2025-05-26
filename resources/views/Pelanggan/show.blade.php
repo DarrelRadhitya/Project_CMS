@@ -6,6 +6,12 @@
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="text-align: center; margin-bottom: 30px;">Detail Pelanggan</h2>
 
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
             <p><strong>ID Pelanggan:</strong> {{ $pelanggan->id }}</p>
             <p><strong>Nama:</strong> {{ $pelanggan->nama }}</p>

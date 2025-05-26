@@ -33,7 +33,7 @@ class PelangganController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->route('pelanggan.index');
+        return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -57,13 +57,14 @@ class PelangganController extends Controller
         ]);
 
         $pelanggan = Pelanggan::findOrFail($id);
+
         $pelanggan->update([
             'nama' => $request->input('nama'),
             'no_telepon' => $request->input('no_telepon'),
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->route('pelanggan.show', $id);
+        return redirect()->route('pelanggan.show', $id)->with('success', 'Data pelanggan berhasil diperbarui.');
     }
 
     public function delete($id)
@@ -77,6 +78,6 @@ class PelangganController extends Controller
         $pelanggan = Pelanggan::findOrFail($id);
         $pelanggan->delete();
 
-        return redirect()->route('pelanggan.index');
+        return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil dihapus.');
     }
 }

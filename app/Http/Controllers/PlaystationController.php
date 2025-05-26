@@ -33,7 +33,7 @@ class PlaystationController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('playstation.index');
+        return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -63,7 +63,7 @@ class PlaystationController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('playstation.show', $id);
+        return redirect()->route('playstation.show', $id)->with('success', 'Data playstation berhasil diperbarui.');
     }
 
     public function delete($id)
@@ -77,6 +77,6 @@ class PlaystationController extends Controller
         $playstation = Playstation::findOrFail($id);
         $playstation->delete();
 
-        return redirect()->route('playstation.index');
+        return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil dihapus.');
     }
 }

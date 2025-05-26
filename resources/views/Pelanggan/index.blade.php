@@ -6,6 +6,12 @@
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h1 style="text-align: center; margin-bottom: 30px;">Daftar Pelanggan</h1>
 
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if($pelanggans->isEmpty())
             <p style="text-align: center; color: #888;">Tidak ada pelanggan.</p>
         @else

@@ -35,7 +35,7 @@ class PembayaranController extends Controller
             'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
         ]);
 
-        return redirect()->route('pembayaran.index');
+        return redirect()->route('pembayaran.index')->with('success', 'Data pembayaran berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -68,7 +68,7 @@ class PembayaranController extends Controller
             'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
         ]);
 
-        return redirect()->route('pembayaran.show', $id);
+        return redirect()->route('pembayaran.show', $id)->with('success', 'Data pembayaran berhasil diperbarui.');
     }
 
     public function delete($id)
@@ -82,6 +82,6 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::findOrFail($id);
         $pembayaran->delete();
 
-        return redirect()->route('pembayaran.index');
+        return redirect()->route('pembayaran.index')->with('success', 'Data pembayaran berhasil dihapus.');
     }
 }

@@ -6,6 +6,12 @@
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="text-align: center; margin-bottom: 30px;">Detail Pembayaran</h2>
 
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
             <p><strong>ID Pembayaran:</strong> {{ $pembayaran->id }}</p>
             <p><strong>ID Transaksi:</strong> {{ $pembayaran->id_transaksi }}</p>

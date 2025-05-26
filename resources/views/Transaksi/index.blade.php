@@ -5,6 +5,12 @@
 @section('content')
     <h1 style="text-align: center; font-size: 28px; font-weight: bold; margin-bottom: 30px;">Daftar Transaksi</h1>
 
+    @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
 <ul style="max-width: 600px; margin: 0 auto; padding: 0;">
     @forelse($transaksis as $t)
         <li style="list-style: none; background-color: #f3f3f3; padding: 15px 20px; margin-bottom: 15px; border-radius: 10px; font-weight: 600;">

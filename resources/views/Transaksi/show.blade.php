@@ -5,6 +5,12 @@
 @section('content')
     <h2 style="text-align: center; font-size: 24px; margin-bottom: 25px;">Detail Transaksi</h2>
 
+    @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
 <div style="max-width: 600px; margin: 0 auto;">
     <p><strong>ID Transaksi:</strong> {{ $transaksi->id }}</p>
     <p><strong>ID Pelanggan:</strong> {{ $transaksi->id_pelanggan }}</p>

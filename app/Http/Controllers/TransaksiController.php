@@ -37,7 +37,7 @@ class TransaksiController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('transaksi.index');
+        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -72,7 +72,7 @@ class TransaksiController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('transaksi.show', $id);
+        return redirect()->route('transaksi.show', $id)->with('success', 'Data transaksi berhasil diperbarui.');
     }
 
     public function delete($id)
@@ -86,6 +86,6 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::findOrFail($id);
         $transaksi->delete();
 
-        return redirect()->route('transaksi.index');
+        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil dihapus.');
     }
 }

@@ -5,10 +5,17 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PlaystationController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\LoginController;
 
-Route::get('/', function () {
-    return view('home');
-});
+// Halaman Login
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Halaman setelah login
+Route::get('/home', function () {
+    return view('home'); 
+})->middleware('auth')->name('home');
 
 // Pelanggan
 Route::resource('pelanggan', PelangganController::class);
@@ -25,3 +32,4 @@ Route::get('/playstation/{id}/delete', [PlaystationController::class, 'delete'])
 // Transaksi
 Route::resource('transaksi', TransaksiController::class);
 Route::get('/transaksi/{id}/delete', [TransaksiController::class, 'delete'])->name('transaksi.delete');
+

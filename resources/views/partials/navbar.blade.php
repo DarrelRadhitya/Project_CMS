@@ -1,4 +1,4 @@
 <nav>
-    <a href="/">Homepage</a>
+    <a href="/home">Homepage</a>
 </nav>
 <hr>

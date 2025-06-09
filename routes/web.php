@@ -33,3 +33,7 @@ Route::get('/playstation/{id}/delete', [PlaystationController::class, 'delete'])
 Route::resource('transaksi', TransaksiController::class);
 Route::get('/transaksi/{id}/delete', [TransaksiController::class, 'delete'])->name('transaksi.delete');
 
+// Middleware untuk check age
+Route::get('/penyewaan-playstation', function () {
+    return "Selamat datang di halaman Penyewaan Playstation!";
+})->middleware('check.age');

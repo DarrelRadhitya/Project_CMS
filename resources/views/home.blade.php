@@ -121,6 +121,11 @@
                           <span class="sub-item">💸 Pembayaran</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('image.upload') }}">
+                          <span class="sub-item">🖼️ Upload gambar</span>
+                        </a>
+                    </li>
                   </ul>
                 </div>
               </li>

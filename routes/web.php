@@ -6,6 +6,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PlaystationController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ImageController;
 
 // Halaman Login
 Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -37,3 +38,8 @@ Route::get('/transaksi/{id}/delete', [TransaksiController::class, 'delete'])->na
 Route::get('/penyewaan-playstation', function () {
     return "Selamat datang di halaman Penyewaan Playstation!";
 })->middleware('check.age');
+
+// images
+Route::get('/upload', [ImageController::class, 'create']);
+Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
+Route::delete('/images/{image}', [ImageController::class, 'destroy'])->name('images.destroy');

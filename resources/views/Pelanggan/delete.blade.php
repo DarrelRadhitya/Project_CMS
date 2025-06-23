@@ -6,6 +6,18 @@
     <div style="max-width: 600px; margin: 0 auto; padding: 20px; text-align: center;">
         <h1 style="color: #c0392b;">Yakin ingin menghapus pelanggan ini?</h1>
 
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div style="margin: 30px 0; padding: 20px; background-color: #fceaea; border-radius: 10px;">
             <p><strong>ID Pelanggan:</strong> {{ $pelanggan->id }}</p>
             <p><strong>Nama:</strong> {{ $pelanggan->nama }}</p>

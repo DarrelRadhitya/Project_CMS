@@ -12,6 +12,12 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
             <p><strong>ID Pelanggan:</strong> {{ $pelanggan->id }}</p>
             <p><strong>Nama:</strong> {{ $pelanggan->nama }}</p>

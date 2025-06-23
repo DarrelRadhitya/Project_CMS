@@ -6,6 +6,18 @@
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h1 style="text-align: center; margin-bottom: 30px;">Edit Pelanggan</h1>
 
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('pelanggan.update', $pelanggan->id) }}"
               style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
             @csrf

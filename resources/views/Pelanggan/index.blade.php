@@ -10,6 +10,10 @@
             <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
                 {{ session('success') }}
             </div>
+        @elseif(session('error'))
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                {{ session('error') }}
+            </div>
         @endif
 
         @if($pelanggans->isEmpty())

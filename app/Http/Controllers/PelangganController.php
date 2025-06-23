@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PelangganController extends Controller
 {
@@ -38,46 +39,66 @@ class PelangganController extends Controller
 
     public function show($id)
     {
-        $pelanggan = Pelanggan::findOrFail($id);
-        return view('pelanggan.show', compact('pelanggan'));
+        try {
+            $pelanggan = Pelanggan::findOrFail($id);
+            return view('pelanggan.show', compact('pelanggan'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
     }
 
     public function edit($id)
     {
-        $pelanggan = Pelanggan::findOrFail($id);
-        return view('pelanggan.edit', compact('pelanggan'));
+        try {
+            $pelanggan = Pelanggan::findOrFail($id);
+            return view('pelanggan.edit', compact('pelanggan'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:20',
-            'email' => 'required|email|unique:pelanggans,email,' . $id . '|max:255',
-        ]);
+        try {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:20',
+                'email' => 'required|email|unique:pelanggans,email,' . $id . '|max:255',
+            ]);
 
-        $pelanggan = Pelanggan::findOrFail($id);
+            $pelanggan = Pelanggan::findOrFail($id);
 
-        $pelanggan->update([
-            'nama' => $request->input('nama'),
-            'no_telepon' => $request->input('no_telepon'),
-            'email' => $request->input('email'),
-        ]);
+            $pelanggan->update([
+                'nama' => $request->input('nama'),
+                'no_telepon' => $request->input('no_telepon'),
+                'email' => $request->input('email'),
+            ]);
 
-        return redirect()->route('pelanggan.show', $id)->with('success', 'Data pelanggan berhasil diperbarui.');
+            return redirect()->route('pelanggan.show', $id)->with('success', 'Data pelanggan berhasil diperbarui.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
     }
 
     public function delete($id)
     {
-        $pelanggan = Pelanggan::findOrFail($id);
-        return view('pelanggan.delete', compact('pelanggan'));
+        try {
+            $pelanggan = Pelanggan::findOrFail($id);
+            return view('pelanggan.delete', compact('pelanggan'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
     }
 
     public function destroy($id)
     {
-        $pelanggan = Pelanggan::findOrFail($id);
-        $pelanggan->delete();
+        try {
+            $pelanggan = Pelanggan::findOrFail($id);
+            $pelanggan->delete();
 
-        return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil dihapus.');
+            return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil dihapus.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
     }
 }

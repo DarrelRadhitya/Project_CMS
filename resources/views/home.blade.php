@@ -47,13 +47,9 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="/" class="logo">
-              <img
-                src="assets/img/kaiadmin/logo_light.svg"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-              />
+            <a href="/home" class="logo">
+              <h5 class="text-white mb-0 me-2">FUN PLAYSTATION</h5>
+              <i class="fas fa-gamepad fa-2x text-white" style="font-size: 24px;"></i>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">

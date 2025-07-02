@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             PlaystationSeeder::class,
             TransaksiSeeder::class,
             PembayaranSeeder::class,
+            UserSeeder::class,
         ]);
          
     }

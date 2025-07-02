@@ -375,7 +375,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Pelanggan</p>
-                          <h4 class="card-title">2</h4>
+                          <h4 class="card-title">{{ $jumlahPelanggan }}</h4>
                         </div>
                       </div>
                     </div>
@@ -397,7 +397,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Unit Playstation</p>
-                          <h4 class="card-title">5</h4>
+                          <h4 class="card-title">{{ $jumlahPlaystation }}</h4>
                         </div>
                       </div>
                     </div>
@@ -419,7 +419,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Total Pemasukan</p>
-                          <h4 class="card-title">Rp 130.000</h4>
+                          <h4 class="card-title">Rp {{ number_format($totalPemasukan,0,',','.') }}</h4>
                         </div>
                       </div>
                     </div>
@@ -441,7 +441,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Rata Rata Durasi Sewa</p>
-                          <h4 class="card-title">1 Hari</h4>
+                          <h4 class="card-title">{{ $rataRataDurasi }} Hari</h4>
                         </div>
                       </div>
                     </div>
@@ -463,40 +463,47 @@
                       </div>
                     </div>
 
-                    <div class="card-list py-4 scrollable-list">
-                        
+                    <div class="card-list py-4 scrollable-list" style="max-height: 320px; overflow-y: auto;">
+                      @foreach($pelangganBaru->take(4) as $pelanggan)
                       <div class="item-list">
                         <div class="avatar">
-                          <img
-                            src="assets/img/jm_denis.jpg"
-                            alt="..."
-                            class="avatar-img rounded-circle"
-                          />
+                          @if(isset($pelanggan->avatar) && $pelanggan->avatar)
+                            <img src="{{ asset($pelanggan->avatar) }}" alt="..." class="avatar-img rounded-circle" />
+                          @else
+                            <span class="avatar-title rounded-circle border border-white">
+                              {{ strtoupper(substr($pelanggan->nama,0,2)) }}
+                            </span>
+                          @endif
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Darrel Radhitya</div>
-                          <div class="status">Playstation 3</div>
+                          <div class="username">{{ $pelanggan->nama }}</div>
                         </div>
                         <button class="btn btn-icon btn-link btn-danger op-8">
-                          <a href="/pelanggan/P001/delete"> 🗑️ </a>
+                          <a href="{{ route('pelanggan.delete', $pelanggan->id) }}"> 🗑️ </a>
                         </button>
                       </div>
-
-                      <div class="item-list">
-                        <div class="avatar">
-                          <span
-                            class="avatar-title rounded-circle border border-white"
-                            >AF</span
-                          >
+                      @endforeach
+                      @if($pelangganBaru->count() > 4)
+                        @foreach($pelangganBaru->slice(4) as $pelanggan)
+                        <div class="item-list">
+                          <div class="avatar">
+                            @if(isset($pelanggan->avatar) && $pelanggan->avatar)
+                              <img src="{{ asset($pelanggan->avatar) }}" alt="..." class="avatar-img rounded-circle" />
+                            @else
+                              <span class="avatar-title rounded-circle border border-white">
+                                {{ strtoupper(substr($pelanggan->nama,0,2)) }}
+                              </span>
+                            @endif
+                          </div>
+                          <div class="info-user ms-3">
+                            <div class="username">{{ $pelanggan->nama }}</div>
+                          </div>
+                          <button class="btn btn-icon btn-link btn-danger op-8">
+                            <a href="{{ route('pelanggan.delete', $pelanggan->id) }}"> 🗑️ </a>
+                          </button>
                         </div>
-                        <div class="info-user ms-3">
-                          <div class="username">Ariq Fairuza</div>
-                          <div class="status">Playstation 3</div>
-                        </div>
-                        <button class="btn btn-icon btn-link btn-danger op-8">
-                          <a href="/pelanggan/P002/delete"> 🗑️ </a>
-                        </button>
-                      </div>
+                        @endforeach
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -515,7 +522,7 @@
                     </div>
                   </div>
                   
-                  <div class="card-body p-0">
+                  <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
                     <div class="table-responsive">
                       <!-- Projects table -->
                       <table class="table align-items-center mb-0">
@@ -528,36 +535,38 @@
                           </tr>
                         </thead>
                         <tbody>
+                          @foreach($historiPembayaran->take(4) as $pembayaran)
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
+                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
                                 <i class="fa fa-check"></i>
                               </button>
-                              Payment from #B001
+                              Payment from #{{ $pembayaran->id }}
                             </th>
-                            <td class="text-end">17 Mar 2025</td>
-                            <td class="text-end">80.000</td>
+                            <td class="text-end">{{ \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)->format('d M Y') }}</td>
+                            <td class="text-end">{{ number_format($pembayaran->jumlah_bayar,0,',','.') }}</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Lunas</span>
+                              <span class="badge badge-success">{{ $pembayaran->transaksi->status ?? '-' }}</span>
                             </td>
                           </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #B002
-                            </th>
-                            <td class="text-end">17 Mar 2025</td>
-                            <td class="text-end">50.000</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">DP</span>
-                            </td>
-                          </tr>
+                          @endforeach
+                          @if($historiPembayaran->count() > 4)
+                            @foreach($historiPembayaran->slice(4) as $pembayaran)
+                            <tr>
+                              <th scope="row">
+                                <button class="btn btn-icon btn-round btn-success btn-sm me-2">
+                                  <i class="fa fa-check"></i>
+                                </button>
+                                Payment from #{{ $pembayaran->id }}
+                              </th>
+                              <td class="text-end">{{ \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)->format('d M Y') }}</td>
+                              <td class="text-end">{{ number_format($pembayaran->jumlah_bayar,0,',','.') }}</td>
+                              <td class="text-end">
+                                <span class="badge badge-success">{{ $pembayaran->transaksi->status ?? '-' }}</span>
+                              </td>
+                            </tr>
+                            @endforeach
+                          @endif
                         </tbody>
                       </table>
                     </div>
@@ -610,45 +619,50 @@
                 <div class="card card-primary card-round">
                   <div class="card-header">
                     <div class="card-head-row">
-                      <div class="card-title">Pemasukan Bulanan per 1 tahun</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-sm btn-label-light dropdown-toggle"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            Export
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#"
-                              >Something else here</a
-                            >
-                          </div>
-                        </div>
-                      </div>
+                      <div class="card-title">Ranking Pelanggan Paling Sering Menyewa</div>
                     </div>
-                    <div class="card-category">March 2025 - April 2025</div>
                   </div>
                   <div class="card-body pb-0">
-                    <div class="mb-4 mt-2">
-                      <h1>Rp 130.000</h1>
-                    </div>
-                    <div class="pull-in">
-                      <canvas id="dailySalesChart"></canvas>
-                    </div>
+                    <canvas id="rankingPelangganChart"></canvas>
                   </div>
                 </div>
               </div>
-              {{-- AKHIR PEMASUKAN BULANAN --}}
+              {{-- AKHIR RANKING PELANGGAN --}}
+    <script>
+      // Data untuk ranking pelanggan dari backend
+      const rankingPelanggan = @json($rankingPelanggan);
+      const pelangganLabels = rankingPelanggan.map(item => item.nama);
+      const pelangganData = rankingPelanggan.map(item => item.total_sewa);
+
+      // Render chart batang menggunakan Chart.js
+      if(document.getElementById('rankingPelangganChart')) {
+        const ctx = document.getElementById('rankingPelangganChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: pelangganLabels,
+            datasets: [{
+              label: 'Jumlah Sewa',
+              data: pelangganData,
+              backgroundColor: 'rgba(54, 162, 235, 0.7)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: { display: false }
+            },
+            scales: {
+              x: { title: { display: true, text: 'Pelanggan' } },
+              y: { beginAtZero: true, title: { display: true, text: 'Jumlah Sewa' }, precision:0 }
+            }
+          }
+        });
+      }
+    </script>
             </div>
 
           </div>

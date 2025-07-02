@@ -14,9 +14,8 @@ Route::post('/login', [LoginController::class, 'authenticate'])->name('login.sub
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Halaman setelah login
-Route::get('/home', function () {
-    return view('home'); 
-})->middleware('auth')->name('home');
+use App\Http\Controllers\DashboardController;
+Route::get('/home', [DashboardController::class, 'index'])->middleware('auth')->name('home');
 
 // Pelanggan
 Route::resource('pelanggan', PelangganController::class);

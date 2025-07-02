@@ -42,6 +42,15 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
+        // Notifikasi pelanggan baru (ambil 5 terbaru)
+        $notifikasi = $pelangganBaru->take(5)->map(function($p){
+            return [
+                'icon' => 'fa-user-plus',
+                'pesan' => 'Pelanggan baru: ' . $p->nama,
+                'waktu' => $p->created_at ? $p->created_at->diffForHumans() : '-',
+            ];
+        })->toArray();
+
         return view('home', compact(
             'jumlahPelanggan',
             'jumlahPlaystation',
@@ -50,7 +59,8 @@ class DashboardController extends Controller
             'pelangganBaru',
             'historiPembayaran',
             'statistikPelanggan',
-            'rankingPelanggan'
+            'rankingPelanggan',
+            'notifikasi'
         ));
     }
 }

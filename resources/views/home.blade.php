@@ -249,7 +249,7 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">2</span>
+                    <span class="notification">{{ count($notifikasi ?? []) }}</span>
                   </a>
                   <ul
                     class="dropdown-menu notif-box animated fadeIn"
@@ -257,30 +257,25 @@
                   >
                     <li>
                       <div class="dropdown-title">
-                        You have 2 new notification
+                        You have {{ count($notifikasi ?? []) }} new notification{{ (count($notifikasi ?? []) > 1) ? 's' : '' }}
                       </div>
                     </li>
                     <li>
                       <div class="notif-scroll scrollbar-outer">
                         <div class="notif-center">
+                          @forelse($notifikasi ?? [] as $notif)
                           <a href="#">
                             <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
+                              <i class="fa {{ $notif['icon'] ?? 'fa-info-circle' }}"></i>
                             </div>
                             <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">5 minutes ago</span>
+                              <span class="block"> {{ $notif['pesan'] }} </span>
+                              <span class="time">{{ $notif['waktu'] }}</span>
                             </div>
                           </a>
-                          <a href="#">
-                            <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">10 minutes ago</span>
-                            </div>
-                          </a>
+                          @empty
+                          <div class="text-center text-muted py-2">No notifications</div>
+                          @endforelse
                         </div>
                       </div>
                     </li>
@@ -579,8 +574,8 @@
 
             <div class="row">
 
-                {{-- AWAL STATISTIK PELANGGAN BARU --}}
-              <div class="col-md-8">
+              {{-- AWAL STATISTIK PELANGGAN BARU (FULL WIDTH) --}}
+              <div class="col-md-12">
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row">
@@ -613,21 +608,7 @@
                 </div>
               </div>
               {{-- AKHIR USER STATISTICS --}}
-
-              {{-- AWAL PEMASUKAN BULANAN --}}
-              <div class="col-md-4">
-                <div class="card card-primary card-round">
-                  <div class="card-header">
-                    <div class="card-head-row">
-                      <div class="card-title">Ranking Pelanggan Paling Sering Menyewa</div>
-                    </div>
-                  </div>
-                  <div class="card-body pb-0">
-                    <canvas id="rankingPelangganChart"></canvas>
-                  </div>
-                </div>
-              </div>
-              {{-- AKHIR RANKING PELANGGAN --}}
+              
     <script>
       // Data untuk ranking pelanggan dari backend
       const rankingPelanggan = @json($rankingPelanggan);

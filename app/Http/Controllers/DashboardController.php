@@ -26,12 +26,22 @@ class DashboardController extends Controller
         $pelangganBaru = Pelanggan::orderBy('created_at', 'desc')->get();
         // Histori pembayaran (ambil 20 terakhir, bisa diubah sesuai kebutuhan scroll)
         $historiPembayaran = Pembayaran::orderBy('tanggal_pembayaran', 'desc')->take(20)->get();
-        // Statistik pelanggan baru per bulan (12 bulan terakhir) - Oracle compatible
-        $statistikPelanggan = Pelanggan::selectRaw("TO_CHAR(created_at, 'MM') as bulan, COUNT(*) as total")
-            ->where('created_at', '>=', Carbon::now()->subYear())
-            ->groupByRaw("TO_CHAR(created_at, 'MM')")
-            ->orderByRaw("TO_CHAR(created_at, 'MM')")
-            ->get();
+
+        // Statistik pelanggan baru per bulan (12 bulan terakhir) - Kompatibel MySQL & Oracle
+        $bulanArr = [];
+        $dataArr = [];
+        // Ambil 12 bulan terakhir
+        for ($i = 11; $i >= 0; $i--) {
+            $bulan = Carbon::now()->subMonths($i);
+            $bulanArr[] = $bulan->format('M Y');
+            $dataArr[] = Pelanggan::whereYear('created_at', $bulan->year)
+                ->whereMonth('created_at', $bulan->month)
+                ->count();
+        }
+        $pelangganPerBulan = [
+            'labels' => $bulanArr,
+            'data' => $dataArr,
+        ];
 
         // Ranking pelanggan yang paling sering menyewa (top 10)
         $rankingPelanggan = \App\Models\Pelanggan::select('nama')
@@ -58,7 +68,7 @@ class DashboardController extends Controller
             'rataRataDurasi',
             'pelangganBaru',
             'historiPembayaran',
-            'statistikPelanggan',
+            'pelangganPerBulan',
             'rankingPelanggan',
             'notifikasi'
         ));

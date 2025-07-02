@@ -304,7 +304,8 @@
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Alex</span>
+                      <span class="fw-bold">{{ Auth::user()->name }}</span>
+
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -319,15 +320,12 @@
                             />
                           </div>
                           <div class="u-text">
-                            <h4>Alex</h4>
-                            <p class="text-muted">Admin1@gmail.com</p>
+                            <h4>{{ Auth::user()->name }}</h4>
+                            <p class="text-muted">{{ Auth::user()->email }}</p>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">Account Setting</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('login') }}">Logout</a>
                       </li>
@@ -574,76 +572,17 @@
 
             <div class="row">
 
-              {{-- AWAL STATISTIK PELANGGAN BARU (FULL WIDTH) --}}
-              <div class="col-md-12">
+              
+              <!-- AWAL DIAGRAM STATISTIK -->
+              <div class="col-12 mt-4">
                 <div class="card card-round">
-                  <div class="card-header">
-                    <div class="card-head-row">
-                      <div class="card-title">Statistics Pelanggan Baru</div>
-                      <div class="card-tools">
-                        <a
-                          href="#"
-                          class="btn btn-label-success btn-round btn-sm me-2"
-                        >
-                          <span class="btn-label">
-                            <i class="fa fa-pencil"></i>
-                          </span>
-                          Export
-                        </a>
-                        <a href="#" class="btn btn-label-info btn-round btn-sm">
-                          <span class="btn-label">
-                            <i class="fa fa-print"></i>
-                          </span>
-                          Print
-                        </a>
-                      </div>
-                    </div>
-                  </div>
                   <div class="card-body">
-                    <div class="chart-container" style="min-height: 375px">
-                      <canvas id="statisticsChart"></canvas>
-                    </div>
-                    <div id="myChartLegend"></div>
+                    <h4 class="card-title mb-4">Statistik Jumlah Pelanggan per Bulan</h4>
+                    <canvas id="chartPelangganPerBulan" height="100"></canvas>
                   </div>
                 </div>
               </div>
-              {{-- AKHIR USER STATISTICS --}}
-              
-    <script>
-      // Data untuk ranking pelanggan dari backend
-      const rankingPelanggan = @json($rankingPelanggan);
-      const pelangganLabels = rankingPelanggan.map(item => item.nama);
-      const pelangganData = rankingPelanggan.map(item => item.total_sewa);
-
-      // Render chart batang menggunakan Chart.js
-      if(document.getElementById('rankingPelangganChart')) {
-        const ctx = document.getElementById('rankingPelangganChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: pelangganLabels,
-            datasets: [{
-              label: 'Jumlah Sewa',
-              data: pelangganData,
-              backgroundColor: 'rgba(54, 162, 235, 0.7)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { display: false },
-              title: { display: false }
-            },
-            scales: {
-              x: { title: { display: true, text: 'Pelanggan' } },
-              y: { beginAtZero: true, title: { display: true, text: 'Jumlah Sewa' }, precision:0 }
-            }
-          }
-        });
-      }
-    </script>
+              <!-- AKHIR DIAGRAM STATISTIK -->
             </div>
 
           </div>
@@ -904,6 +843,38 @@
     <script src="assets/js/setting-colour.js"></script>
     <script src="assets/js/stats.js"></script>
     <script src="assets/js/income.js"></script>
+    
+    <!-- Chart.js: Statistik Pelanggan per Bulan -->
+    <script>
+      // Data dari controller (pastikan variabel ini dikirim dari controller)
+      const pelangganLabels = @json($pelangganPerBulan['labels'] ?? []);
+      const pelangganData = @json($pelangganPerBulan['data'] ?? []);
+
+      if (document.getElementById('chartPelangganPerBulan')) {
+        const ctx = document.getElementById('chartPelangganPerBulan').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: pelangganLabels,
+            datasets: [{
+              label: 'Jumlah Pelanggan',
+              data: pelangganData,
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    </script>
     
     </script>
   </body>

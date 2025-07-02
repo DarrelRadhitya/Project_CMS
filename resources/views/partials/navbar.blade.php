@@ -2,7 +2,7 @@
     <a href="/" class="logo">
         <!-- Logo image removed as requested -->
     </a>
-    <a href="{{ route('home') }}"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="{{ route('home') }}"><i class="fas fa-home"></i> Main Menu</a>
     <div class="dropdown">
         <a href="#" class="dropdown-toggle"><i class="fas fa-layer-group"></i> Kelola Data</a>
         <ul class="dropdown-menu">
@@ -10,7 +10,6 @@
             <li><a class="dropdown-item" href="{{ route('playstation.index') }}">🎮 Playstation</a></li>
             <li><a class="dropdown-item" href="{{ route('transaksi.index') }}">📝 Transaksi</a></li>
             <li><a class="dropdown-item" href="{{ route('pembayaran.index') }}">💸 Pembayaran</a></li>
-            <li><a class="dropdown-item" href="{{ route('image.upload') }}">🖼️ Upload gambar</a></li>
         </ul>
     </div>
     <div class="dropdown">

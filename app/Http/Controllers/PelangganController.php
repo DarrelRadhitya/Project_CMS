@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class PelangganController extends Controller
 {
@@ -28,21 +29,33 @@ class PelangganController extends Controller
             'email' => 'required|email|unique:pelanggans,email|max:255',
         ]);
 
-        Pelanggan::create([
-            'nama' => $request->input('nama'),
-            'no_telepon' => $request->input('no_telepon'),
-            'email' => $request->input('email'),
-        ]);
+        try {
+            Pelanggan::create([
+                'nama' => $request->input('nama'),
+                'no_telepon' => $request->input('no_telepon'),
+                'email' => $request->input('email'),
+            ]);
 
-        return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil ditambahkan.');
+            Log::info('Data pelanggan berhasil disimpan.', [
+                'nama' => $request->input('nama'),
+                'email' => $request->input('email')
+            ]);
+
+            return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            Log::error('Error menyimpan data pelanggan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
     }
 
     public function show($id)
     {
         try {
             $pelanggan = Pelanggan::findOrFail($id);
+            Log::info('Menampilkan detail pelanggan ID: ' . $id);
             return view('pelanggan.show', compact('pelanggan'));
         } catch (ModelNotFoundException $e) {
+            Log::error('Gagal menampilkan detail pelanggan. ID tidak ditemukan: ' . $id);
             return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
         }
     }
@@ -51,8 +64,10 @@ class PelangganController extends Controller
     {
         try {
             $pelanggan = Pelanggan::findOrFail($id);
+            Log::info('Mengakses halaman edit pelanggan ID: ' . $id);
             return view('pelanggan.edit', compact('pelanggan'));
         } catch (ModelNotFoundException $e) {
+            Log::error('Gagal mengakses edit pelanggan. ID tidak ditemukan: ' . $id);
             return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
         }
     }
@@ -74,8 +89,10 @@ class PelangganController extends Controller
                 'email' => $request->input('email'),
             ]);
 
+            Log::info('Data pelanggan diperbarui.', ['id' => $id]);
             return redirect()->route('pelanggan.show', $id)->with('success', 'Data pelanggan berhasil diperbarui.');
         } catch (ModelNotFoundException $e) {
+            Log::error('Gagal memperbarui data. Pelanggan ID tidak ditemukan: ' . $id);
             return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
         }
     }
@@ -84,8 +101,10 @@ class PelangganController extends Controller
     {
         try {
             $pelanggan = Pelanggan::findOrFail($id);
+            Log::info('Mengakses halaman konfirmasi hapus pelanggan ID: ' . $id);
             return view('pelanggan.delete', compact('pelanggan'));
         } catch (ModelNotFoundException $e) {
+            Log::error('Gagal mengakses halaman hapus. Pelanggan ID tidak ditemukan: ' . $id);
             return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
         }
     }
@@ -96,8 +115,10 @@ class PelangganController extends Controller
             $pelanggan = Pelanggan::findOrFail($id);
             $pelanggan->delete();
 
+            Log::info('Data pelanggan berhasil dihapus.', ['id' => $id]);
             return redirect()->route('pelanggan.index')->with('success', 'Data pelanggan berhasil dihapus.');
         } catch (ModelNotFoundException $e) {
+            Log::error('Gagal menghapus data. Pelanggan ID tidak ditemukan: ' . $id);
             return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan tidak ditemukan.');
         }
     }

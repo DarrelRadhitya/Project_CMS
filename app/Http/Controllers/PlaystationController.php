@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Playstation;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class PlaystationController extends Controller
 {
@@ -27,25 +29,47 @@ class PlaystationController extends Controller
             'status' => 'required|in:tersedia,disewakan',
         ]);
 
-         Playstation::create([
-            'jenis' => $request->input('jenis'),
-            'harga_sewa' => $request->input('harga_sewa'),
-            'status' => $request->input('status'),
-        ]);
+        try {
+            Playstation::create([
+                'jenis' => $request->input('jenis'),
+                'harga_sewa' => $request->input('harga_sewa'),
+                'status' => $request->input('status'),
+            ]);
 
-        return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil ditambahkan.');
+            Log::info('Data playstation berhasil ditambahkan.', [
+                'jenis' => $request->input('jenis'),
+                'status' => $request->input('status')
+            ]);
+
+            return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            Log::error('Gagal menambahkan data playstation: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
     }
 
     public function show($id)
     {
-        $playstation = Playstation::findOrFail($id);
-        return view('playstation.show', compact('playstation'));
+        try {
+            $playstation = Playstation::findOrFail($id);
+            Log::info("Menampilkan detail playstation ID: $id");
+            return view('playstation.show', compact('playstation'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Data playstation tidak ditemukan. ID: $id");
+            return redirect()->route('playstation.index')->with('error', 'Data playstation tidak ditemukan.');
+        }
     }
 
     public function edit($id)
     {
-        $playstation = Playstation::findOrFail($id);
-        return view('playstation.edit', compact('playstation'));
+        try {
+            $playstation = Playstation::findOrFail($id);
+            Log::info("Mengakses halaman edit playstation ID: $id");
+            return view('playstation.edit', compact('playstation'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal mengakses halaman edit. Playstation ID $id tidak ditemukan.");
+            return redirect()->route('playstation.index')->with('error', 'Data playstation tidak ditemukan.');
+        }
     }
 
     public function update(Request $request, $id)
@@ -56,27 +80,44 @@ class PlaystationController extends Controller
             'status' => 'required|in:tersedia,disewakan',
         ]);
 
-        $playstation = Playstation::findOrFail($id);
-        $playstation->update([
-            'jenis' => $request->input('jenis'),
-            'harga_sewa' => $request->input('harga_sewa'),
-            'status' => $request->input('status'),
-        ]);
+        try {
+            $playstation = Playstation::findOrFail($id);
+            $playstation->update([
+                'jenis' => $request->input('jenis'),
+                'harga_sewa' => $request->input('harga_sewa'),
+                'status' => $request->input('status'),
+            ]);
 
-        return redirect()->route('playstation.show', $id)->with('success', 'Data playstation berhasil diperbarui.');
+            Log::info("Data playstation diperbarui.", ['id' => $id]);
+            return redirect()->route('playstation.show', $id)->with('success', 'Data playstation berhasil diperbarui.');
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal memperbarui. Playstation ID $id tidak ditemukan.");
+            return redirect()->route('playstation.index')->with('error', 'Data playstation tidak ditemukan.');
+        }
     }
 
     public function delete($id)
     {
-        $playstation = Playstation::findOrFail($id);
-        return view('playstation.delete', compact('playstation'));
+        try {
+            $playstation = Playstation::findOrFail($id);
+            Log::info("Mengakses halaman konfirmasi hapus playstation ID: $id");
+            return view('playstation.delete', compact('playstation'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Halaman hapus gagal dibuka. Playstation ID $id tidak ditemukan.");
+            return redirect()->route('playstation.index')->with('error', 'Data playstation tidak ditemukan.');
+        }
     }
 
     public function destroy($id)
     {
-        $playstation = Playstation::findOrFail($id);
-        $playstation->delete();
-
-        return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil dihapus.');
+        try {
+            $playstation = Playstation::findOrFail($id);
+            $playstation->delete();
+            Log::info("Data playstation berhasil dihapus. ID: $id");
+            return redirect()->route('playstation.index')->with('success', 'Data playstation berhasil dihapus.');
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal menghapus. Playstation ID $id tidak ditemukan.");
+            return redirect()->route('playstation.index')->with('error', 'Data playstation tidak ditemukan.');
+        }
     }
 }

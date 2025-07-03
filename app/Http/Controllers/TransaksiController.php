@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class TransaksiController extends Controller
 {
@@ -29,27 +31,49 @@ class TransaksiController extends Controller
             'status' => 'required|in:lunas,dp',
         ]);
 
-        Transaksi::create([
-            'id_pelanggan' => $request->input('id_pelanggan'),
-            'id_playstation' => $request->input('id_playstation'),
-            'tanggal_pinjam' => $request->input('tanggal_pinjam'),
-            'tanggal_kembali' => $request->input('tanggal_kembali'),
-            'status' => $request->input('status'),
-        ]);
+        try {
+            Transaksi::create([
+                'id_pelanggan' => $request->input('id_pelanggan'),
+                'id_playstation' => $request->input('id_playstation'),
+                'tanggal_pinjam' => $request->input('tanggal_pinjam'),
+                'tanggal_kembali' => $request->input('tanggal_kembali'),
+                'status' => $request->input('status'),
+            ]);
 
-        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil ditambahkan.');
+            Log::info('Transaksi baru berhasil ditambahkan.', [
+                'id_pelanggan' => $request->input('id_pelanggan'),
+                'id_playstation' => $request->input('id_playstation')
+            ]);
+
+            return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            Log::error('Gagal menambahkan transaksi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan transaksi.');
+        }
     }
 
     public function show($id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-        return view('transaksi.show', compact('transaksi'));
+        try {
+            $transaksi = Transaksi::findOrFail($id);
+            Log::info("Menampilkan detail transaksi ID: $id");
+            return view('transaksi.show', compact('transaksi'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Transaksi ID $id tidak ditemukan.");
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+        }
     }
 
     public function edit($id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-        return view('transaksi.edit', compact('transaksi'));
+        try {
+            $transaksi = Transaksi::findOrFail($id);
+            Log::info("Mengakses halaman edit transaksi ID: $id");
+            return view('transaksi.edit', compact('transaksi'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal mengakses halaman edit transaksi. ID $id tidak ditemukan.");
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+        }
     }
 
     public function update(Request $request, $id)
@@ -62,30 +86,48 @@ class TransaksiController extends Controller
             'status' => 'required|in:lunas,dp',
         ]);
 
-        $transaksi = Transaksi::findOrFail($id);
+        try {
+            $transaksi = Transaksi::findOrFail($id);
 
-        $transaksi->update([
-            'id_pelanggan' => $request->input('id_pelanggan'),
-            'id_playstation' => $request->input('id_playstation'),
-            'tanggal_pinjam' => $request->input('tanggal_pinjam'),
-            'tanggal_kembali' => $request->input('tanggal_kembali'),
-            'status' => $request->input('status'),
-        ]);
+            $transaksi->update([
+                'id_pelanggan' => $request->input('id_pelanggan'),
+                'id_playstation' => $request->input('id_playstation'),
+                'tanggal_pinjam' => $request->input('tanggal_pinjam'),
+                'tanggal_kembali' => $request->input('tanggal_kembali'),
+                'status' => $request->input('status'),
+            ]);
 
-        return redirect()->route('transaksi.show', $id)->with('success', 'Data transaksi berhasil diperbarui.');
+            Log::info("Transaksi ID $id berhasil diperbarui.");
+            return redirect()->route('transaksi.show', $id)->with('success', 'Data transaksi berhasil diperbarui.');
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal memperbarui transaksi. ID $id tidak ditemukan.");
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+        }
     }
 
     public function delete($id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-        return view('transaksi.delete', compact('transaksi'));
+        try {
+            $transaksi = Transaksi::findOrFail($id);
+            Log::info("Mengakses halaman konfirmasi hapus transaksi ID: $id");
+            return view('transaksi.delete', compact('transaksi'));
+        } catch (ModelNotFoundException $e) {
+            Log::error("Halaman hapus transaksi gagal dibuka. ID $id tidak ditemukan.");
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+        }
     }
 
     public function destroy($id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
+        try {
+            $transaksi = Transaksi::findOrFail($id);
+            $transaksi->delete();
 
-        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil dihapus.');
+            Log::info("Transaksi ID $id berhasil dihapus.");
+            return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil dihapus.');
+        } catch (ModelNotFoundException $e) {
+            Log::error("Gagal menghapus transaksi. ID $id tidak ditemukan.");
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+        }
     }
 }

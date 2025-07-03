@@ -12,6 +12,11 @@ Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.submit');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Register
+use App\Http\Controllers\RegisterController;
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+
 // Halaman setelah login
 use App\Http\Controllers\DashboardController;
 Route::get('/home', [DashboardController::class, 'index'])->middleware('auth')->name('home');

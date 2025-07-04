@@ -127,7 +127,7 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil dihapus.');
         } catch (ModelNotFoundException $e) {
             Log::error("Gagal menghapus transaksi. ID $id tidak ditemukan.");
-            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan.');
+            return redirect()->route('transaksi.index')->with('error', 'Data transaksi tidak ditemukan!.');
         }
     }
 }
